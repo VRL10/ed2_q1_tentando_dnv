@@ -39,7 +39,7 @@ typedef struct arvore_matricula {
     Arv_matricula *esq, *dir;
 }Arv_matricula;
 
-void converternome(char *nome);
+
 int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_curso);
 
 int cadastrar_curso(Arv_curso **curso, int cod_curso, int qtd_peridos, char nome[50]);
@@ -76,6 +76,7 @@ void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso);
 
 
 // funções auxiliares
+void converternome(char *nome);
 Arv_disciplina* buscar_disciplina(Arv_disciplina *disciplina, int codigo_disciplina);
 Arv_curso* buscar_curso(Arv_curso *curso, int codigo_curso);
 void exibir_disciplina(Arv_disciplina *disciplina);

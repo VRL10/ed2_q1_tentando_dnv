@@ -3,34 +3,40 @@
 #include "arvore.h"
 
 void menu() {
-    printf("|                      ----------                     |\n");
-    printf("|--------------------- Menu Geral --------------------|\n");
-    printf("|                      ----------                     |\n");
-    printf("|                                                     |\n");
-    printf("|     1. Cadastrar Aluno (I)                          |\n");
-    printf("|     2. Cadastrar Curso (II)                         |\n");
-    printf("|     3. Cadastrar Disciplina (III)                   |\n");
-    printf("|     4. Cadastrar Matrícula (IV)                     |\n");
-    printf("|     5. Cadastrar Nota (V)                           |\n");
-    printf("|     6. Mostrar Alunos de um Curso (VI)              |\n");
-    printf("|     7. Mostrar Cursos do Campus (VII)               |\n");
-    printf("|     8. Mostrar Disciplinas de um Curso (VIII)       |\n");
-    printf("|     9. Mostrar Disciplinas de um Período (IX)       |\n");
-    printf("|    10. Mostrar Disciplinas Matriculadas (X)         |\n");
-    printf("|    11. Mostrar Notas por Período (XI)               |\n");
-    printf("|    12. Mostrar Nota de uma Disciplina (XII)         |\n");
-    printf("|    13. Remover Disciplina de Curso (XIII)           |\n");
-    printf("|    14. Remover Disciplina da Matrícula (XIV)        |\n");
-    printf("|    15. Mostrar Histórico do Aluno (XV)              |\n");
-    printf("|    16. Sair                                         |\n");
-    printf("|                                                     |\n");
-    printf("|-----------------------------------------------------|\n");
+    printf("|                      ----------                           |\n");
+    printf("|--------------------- Menu Geral --------------------------|\n");
+    printf("|                      ----------                           |\n");
+    printf("|                                                           |\n");
+    printf("|     1. Cadastrar Aluno (I)                                |\n");
+    printf("|     2. Cadastrar Curso (II)                               |\n");
+    printf("|     3. Cadastrar Disciplina (III)                         |\n");
+    printf("|     4. Cadastrar Matrícula (IV)                           |\n");
+    printf("|     5. Cadastrar Nota (V)                                 |\n");
+    printf("|     6. Mostrar Alunos de um Curso (VI)                    |\n");
+    printf("|     7. Mostrar Cursos do Campus (VII)                     |\n");
+    printf("|     8. Mostrar Disciplinas de um Curso (VIII)             |\n");
+    printf("|     9. Mostrar Disciplinas de um Período do curso (IX)    |\n");
+    printf("|    10. Mostrar Disciplinas que um determinad aluno está matriculado (X)               |\n");
+    printf("|    11. Mostrar todas as notas de disciplinas de um determinado período de um determinado aluno (XI)                     |\n");
+    printf("|    12. Mostrar a nota de uma disciplina de um determinado aluno (XII)               |\n");
+    printf("|    13. Remover Disciplina de Curso (XIII)                 |\n");
+    printf("|    14. Remover Disciplina da Matrícula (XIV)              |\n");
+    printf("|    15. Mostrar Histórico do Aluno (XV)                    |\n");
+    printf("|    16. Sair                                               |\n");
+    printf("|                                                           |\n");
+    printf("|-----------------------------------------------------------|\n");
 }
 
 int main() {
     Lista_alunos *lista_alunos = NULL;
     Arv_curso *arvore_cursos = NULL;
     int opcao;
+
+    // Variáveis para uso nos cases
+    char nome[50];
+    int matricula, cod_curso, cod_disciplina, periodo_disciplina, carga_horaria;
+    float nota_final;
+    int semestre_cursado;
 
     do {
         menu();
@@ -39,9 +45,6 @@ int main() {
 
         switch (opcao) {
             case 1: {
-                char nome[50];
-                int matricula, cod_curso;
-
                 printf("Digite o nome do aluno: ");
                 scanf(" %[^\n]", nome);
                 printf("Digite a matrícula do aluno: ");
@@ -57,17 +60,14 @@ int main() {
                 break;
             }
             case 2: {
-                int cod_curso, qtd_periodos;
-                char nome[50];
-
                 printf("Digite o código do curso: ");
                 scanf("%d", &cod_curso);
                 printf("Digite a quantidade de períodos: ");
-                scanf("%d", &qtd_periodos);
+                scanf("%d", &periodo_disciplina);
                 printf("Digite o nome do curso: ");
                 scanf(" %[^\n]", nome);
 
-                if (cadastrar_curso(&arvore_cursos, cod_curso, qtd_periodos, nome)) {
+                if (cadastrar_curso(&arvore_cursos, cod_curso, periodo_disciplina, nome)) {
                     printf("Curso cadastrado com sucesso!\n");
                 } else {
                     printf("Erro ao cadastrar curso.\n");
@@ -75,9 +75,6 @@ int main() {
                 break;
             }
             case 3: {
-                int cod_curso, cod_disciplina, periodo_disciplina, carga_horaria;
-                char nome[50];
-
                 printf("Digite o código do curso: ");
                 scanf("%d", &cod_curso);
                 printf("Digite o código da disciplina: ");
@@ -97,14 +94,12 @@ int main() {
                 break;
             }
             case 4: {
-                int cod_disciplina, cod_matricula;
-
                 printf("Digite o código da disciplina: ");
                 scanf("%d", &cod_disciplina);
-                printf ("Digite o código da matrícula: ");
-                scanf("%d", &cod_matricula);
+                printf("Digite o código da matrícula: ");
+                scanf("%d", &matricula);
 
-                if (cadastrar_matricula(&lista_alunos, cod_matricula, cod_disciplina)) {
+                if (cadastrar_matricula(&lista_alunos, cod_disciplina, matricula)) {
                     printf("Matrícula cadastrada com sucesso!\n");
                 } else {
                     printf("Erro ao cadastrar matrícula.\n");
@@ -112,16 +107,16 @@ int main() {
                 break;
             }
             case 5: {
-                int cod_matricula, cod_disciplina, nota;
-
-                printf("Digite o código da matrícula: ");
-                scanf("%d", &cod_matricula);
+                printf("Digite a matrícula do aluno: ");
+                scanf("%d", &matricula);
                 printf("Digite o código da disciplina: ");
                 scanf("%d", &cod_disciplina);
-                printf("Digite a nota: ");
-                scanf("%d", &nota);
+                printf("Digite a nota final: ");
+                scanf("%f", &nota_final);
+                printf("Digite o semestre cursado: ");
+                scanf("%d", &semestre_cursado);
 
-                if (cadastrar_nota(cod_matricula, cod_disciplina, nota)) {
+                if (cadastrar_notas(&lista_alunos, nota_final, cod_disciplina, matricula, semestre_cursado)) {
                     printf("Nota cadastrada com sucesso!\n");
                 } else {
                     printf("Erro ao cadastrar nota.\n");
@@ -129,7 +124,6 @@ int main() {
                 break;
             }
             case 6: {
-                int cod_curso;
                 printf("Digite o código do curso: ");
                 scanf("%d", &cod_curso);
                 aluno_por_curso(lista_alunos, cod_curso);
@@ -140,83 +134,73 @@ int main() {
                 break;
             }
             case 8: {
-                int cod_curso;
                 printf("Digite o código do curso: ");
                 scanf("%d", &cod_curso);
-                disciplinas_do_curso(arvore_cursos, cod_curso);
+                encontrar_curso_desejado(arvore_cursos, cod_curso);
                 break;
             }
             case 9: {
-                int periodo;
                 printf("Digite o período: ");
-                scanf("%d", &periodo);
-                disciplinas_por_periodo(arvore_cursos, periodo);
+                scanf("%d", &periodo_disciplina);
+                mostrar_todas_disciplinas_periodo_de_um_curso(arvore_cursos, cod_curso, periodo_disciplina);
                 break;
             }
             case 10: {
-                int cod_matricula;
-                printf("Digite o código da matrícula: ");
-                scanf("%d", &cod_matricula);
-                disciplinas_matriculadas(cod_matricula);
+                printf("Digite a matrícula do aluno: ");
+                scanf("%d", &matricula);
+                exibir_disciplinas_por_aluno(lista_alunos, arvore_cursos, matricula);
                 break;
             }
             case 11: {
-                int periodo;
                 printf("Digite o período: ");
-                scanf("%d", &periodo);
-                notas_por_periodo(periodo);
+                scanf("%d", &periodo_disciplina);
+                printf("Digite a o código da matrícula do aluno: ");
+                scanf("%d", &matricula);
+                exibir_todas_notas_disciplinas_determinado_periodo_aluno(lista_alunos, arvore_cursos->disciplinas, periodo_disciplina, matricula);
                 break;
             }
             case 12: {
-                int cod_disciplina;
+                printf("Digite a matrícula do aluno: ");
+                scanf("%d", &matricula);
                 printf("Digite o código da disciplina: ");
                 scanf("%d", &cod_disciplina);
-                nota_disciplina(cod_disciplina);
+                exibir_nota_disciplina_aluno(lista_alunos, arvore_cursos, cod_disciplina, matricula);
                 break;
             }
             case 13: {
-                int cod_curso, cod_disciplina;
                 printf("Digite o código do curso: ");
                 scanf("%d", &cod_curso);
                 printf("Digite o código da disciplina: ");
                 scanf("%d", &cod_disciplina);
-                if (remover_disciplina_curso(&arvore_cursos, cod_curso, cod_disciplina)) {
-                    printf("Disciplina removida do curso com sucesso!\n");
-                } else {
-                    printf("Erro ao remover disciplina do curso.\n");
-                }
+                remover_disciplina_de_um_curso_sem_aluno_matriculado(lista_alunos, arvore_cursos, cod_curso, cod_disciplina);
                 break;
             }
             case 14: {
-                int cod_matricula, cod_disciplina;
-                printf("Digite o código da matrícula: ");
-                scanf("%d", &cod_matricula);
+                printf("Digite a matrícula do aluno: ");
+                scanf("%d", &matricula);
                 printf("Digite o código da disciplina: ");
                 scanf("%d", &cod_disciplina);
-                if (remover_disciplina_matricula(cod_matricula, cod_disciplina)) {
-                    printf("Disciplina removida da matrícula com sucesso!\n");
-                } else {
-                    printf("Erro ao remover disciplina da matrícula.\n");
-                }
+                remover_disciplina_da_arvore_de_matricula_aluno(lista_alunos->matriculas, cod_disciplina);
                 break;
             }
             case 15: {
-                int cod_matricula;
-                printf("Digite o código da matrícula: ");
-                scanf("%d", &cod_matricula);
-                historico_aluno(cod_matricula);
+                printf("Digite a matrícula do aluno: ");
+                scanf("%d", &matricula);
+                mostrar_historico_aluno(lista_alunos, arvore_cursos, matricula);
                 break;
             }
-            case 16:
-                printf("Saindo...\n");
+            case 16: {
+                printf("Saindo do programa...\n");
                 break;
-            default:
+            }
+            default: {
                 printf("Opção inválida! Tente novamente.\n");
+                break;
+            }
         }
     } while (opcao != 16);
 
-    // Liberação de memória (se necessário)
-    // Aqui você deve liberar a memória alocada para lista_alunos e arvore_cursos
-
+    liberar_lista_alunos(lista_alunos);
+    liberar_arvore_cursos(arvore_cursos);
     return 0;
 }

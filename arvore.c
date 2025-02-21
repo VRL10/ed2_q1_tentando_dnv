@@ -4,14 +4,6 @@
 #include<ctype.h>
 #include<string.h>
 
-void converter_nome(char *nome) {
-    int i = 0;
-    while (nome[i] != '\0'){
-        nome[i] = toupper(nome[i]);
-        i++;
-    }
-}
-
 /*  I - Cadastrar alunos a qualquer momento na lista, de forma que só possa cadastrar um código de curso que já tenha sido cadastrado na árvore de cursos.  */
 
 int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_curso) {
@@ -423,31 +415,6 @@ void exibir_nota_disciplina_aluno(Lista_alunos *aluno, Arv_curso *curso, int cod
 }
 
 // XIII - Remover uma disciplina de um determinado curso desde que não tenha nenhum aluno matriculado na mesma.
-void remover_disciplina_de_um_curso_sem_aluno_matriculado(Lista_alunos *aluno, Arv_curso *curso, int codigo_curso, int codigo_disciplina){
-    Arv_curso *achei_curso = buscar_curso(curso, codigo_curso);
-    if (achei_curso == NULL || achei_curso->disciplinas == NULL) { 
-        printf("\nCurso ou lista de disciplinas inválida.\n");
-        return;
-    }
-    
-    Arv_disciplina *achei_disciplina = buscar_disciplina(achei_curso->disciplinas, codigo_disciplina);
-    if(achei_disciplina == NULL){
-        printf("\nA disciplina não foi encontrada!\n");
-        return;
-    }
-
-        int var_verificar = aluno_esta_cadastrado_na_disciplina(aluno, achei_disciplina); 
-        if (var_verificar == 1)
-            printf("\nNão é possível remover a disciplina, pois tem aluno(s) cadastrado(s)");
-        else{
-            int resultado = remover_disciplina(&(achei_curso->disciplinas), codigo_disciplina); 
-            if(resultado == 1)
-                printf("\nDisciplina removida com sucesso!");
-            else
-                printf("\nErro na função de remover disciplina!");
-        }
-}
-
 int remover_disciplina(Arv_disciplina **disciplina_remover, int codigo_disciplina){
     int resultado = 0;
     if(*disciplina_remover != NULL){
@@ -482,20 +449,32 @@ int remover_disciplina(Arv_disciplina **disciplina_remover, int codigo_disciplin
     return resultado;
 }
 
-// XIV - Permita remover uma disciplina da árvore de matrícula de um determinado aluno.
-void remover_disciplina_da_arvore_de_matricula_aluno(Arv_matricula **matriculas, int codigo_disciplina){
-    if(*matriculas != NULL){
-        if((*matriculas)->cod_disciplina == codigo_disciplina)
-            remover_disciplina_arvore_matricula(&(*matriculas), codigo_disciplina);
-        else{
-            if((*matriculas)->cod_disciplina > codigo_disciplina)
-                remover_disciplina_da_arvore_de_matricula_aluno(&(*matriculas)->esq, codigo_disciplina);
-            else if((*matriculas)->cod_disciplina < codigo_disciplina)
-                remover_disciplina_da_arvore_de_matricula_aluno(&(*matriculas)->dir, codigo_disciplina);
-        }
+void remover_disciplina_de_um_curso_sem_aluno_matriculado(Lista_alunos *aluno, Arv_curso *curso, int codigo_curso, int codigo_disciplina){
+    Arv_curso *achei_curso = buscar_curso(curso, codigo_curso);
+    if (achei_curso == NULL || achei_curso->disciplinas == NULL) { 
+        printf("\nCurso ou lista de disciplinas inválida.\n");
+        return;
     }
+    
+    Arv_disciplina *achei_disciplina = buscar_disciplina(achei_curso->disciplinas, codigo_disciplina);
+    if(achei_disciplina == NULL){
+        printf("\nA disciplina não foi encontrada!\n");
+        return;
+    }
+
+        int var_verificar = aluno_esta_cadastrado_na_disciplina(aluno, achei_disciplina); 
+        if (var_verificar == 1)
+            printf("\nNão é possível remover a disciplina, pois tem aluno(s) cadastrado(s)");
+        else{
+            int resultado = remover_disciplina(&(achei_curso->disciplinas), codigo_disciplina); 
+            if(resultado == 1)
+                printf("\nDisciplina removida com sucesso!");
+            else
+                printf("\nErro na função de remover disciplina!");
+        }
 }
 
+// XIV - Permita remover uma disciplina da árvore de matrícula de um determinado aluno.
 int remover_disciplina_arvore_matricula(Arv_matricula **matricula, int codigo_disciplina){
     int resultado = 0;
     if((*matricula)->cod_disciplina == codigo_disciplina){
@@ -525,6 +504,19 @@ int remover_disciplina_arvore_matricula(Arv_matricula **matricula, int codigo_di
         }
     }
     return resultado;
+}
+
+void remover_disciplina_da_arvore_de_matricula_aluno(Arv_matricula **matriculas, int codigo_disciplina){
+    if(*matriculas != NULL){
+        if((*matriculas)->cod_disciplina == codigo_disciplina)
+            remover_disciplina_arvore_matricula(&(*matriculas), codigo_disciplina);
+        else{
+            if((*matriculas)->cod_disciplina > codigo_disciplina)
+                remover_disciplina_da_arvore_de_matricula_aluno(&(*matriculas)->esq, codigo_disciplina);
+            else if((*matriculas)->cod_disciplina < codigo_disciplina)
+                remover_disciplina_da_arvore_de_matricula_aluno(&(*matriculas)->dir, codigo_disciplina);
+        }
+    }
 }
 
 // XV - Mostrar o histórico de um determinado aluno, contendo o nome do curso, as disciplinas e sua respectiva nota organizadas pelo período que a disciplina está cadastrada no curso.
@@ -579,6 +571,14 @@ void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso) {
 
 
 // Funções auxiliares
+void converter_nome(char *nome) {
+    int i = 0;
+    while (nome[i] != '\0'){
+        nome[i] = toupper(nome[i]);
+        i++;
+    }
+}
+
 Arv_disciplina* buscar_disciplina(Arv_disciplina *disciplina, int codigo_disciplina) {
     Arv_disciplina *resultado;
     if (disciplina == NULL || disciplina->cod_disciplina == codigo_disciplina)  
@@ -656,3 +656,4 @@ float buscar_nota_atual(Arv_notas *notas, Arv_disciplina *disciplina){
     }
     return nota_atual;
 }
+
