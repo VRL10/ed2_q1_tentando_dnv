@@ -663,3 +663,50 @@ float buscar_nota_atual(Arv_notas *notas, Arv_disciplina *disciplina){
     return nota_atual;
 }
 
+void liberar_lista_alunos(Lista_alunos *aluno) { // feita pelo blackbox
+    while (aluno != NULL) {
+        Lista_alunos *temp = aluno;
+        aluno = aluno->prox;
+
+        // Liberar a árvore de matrículas
+        liberar_arvore_matricula(temp->matriculas);
+
+        // Liberar a árvore de notas
+        liberar_arvore_notas(temp->notas);
+
+        free(temp);
+    }
+}
+
+void liberar_arvore_matricula(Arv_matricula *matricula) {
+    if (matricula != NULL) {
+        liberar_arvore_matricula(matricula->esq);
+        liberar_arvore_matricula(matricula->dir);
+        free(matricula);
+    }
+}
+
+void liberar_arvore_notas(Arv_notas *notas) {
+    if (notas != NULL) {
+        liberar_arvore_notas(notas->esq);
+        liberar_arvore_notas(notas->dir);
+        free(notas);
+    }
+}
+
+void liberar_arvore_cursos(Arv_curso *curso) {
+    if (curso != NULL) {
+        liberar_arvore_cursos(curso->esq);
+        liberar_arvore_cursos(curso->dir);
+        liberar_arvore_disciplinas(curso->disciplinas);
+        free(curso);
+    }
+}
+
+void liberar_arvore_disciplinas(Arv_disciplina *disciplina) {
+    if (disciplina != NULL) {
+        liberar_arvore_disciplinas(disciplina->esq);
+        liberar_arvore_disciplinas(disciplina->dir);
+        free(disciplina);
+    }
+}

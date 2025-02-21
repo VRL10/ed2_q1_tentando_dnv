@@ -87,5 +87,11 @@ int eh_folha_matricula(Arv_matricula *matricula);
 int so_um_filho_disciplina(Arv_disciplina *disciplina);
 int so_um_filho_matricula(Arv_matricula *matricula);
 float buscar_nota_atual(Arv_notas *notas, Arv_disciplina *disciplina);
+void liberar_lista_alunos(Lista_alunos *aluno);
+void liberar_arvore_matricula(Arv_matricula *matricula);
+void liberar_arvore_notas(Arv_notas *notas);
+void liberar_arvore_cursos(Arv_curso *curso);
+void liberar_arvore_disciplinas(Arv_disciplina *disciplina);
+
 
 #endif
