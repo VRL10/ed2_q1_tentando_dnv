@@ -4,8 +4,15 @@
 #include<ctype.h>
 #include<string.h>
 
-/*  I - Cadastrar alunos a qualquer momento na lista, de forma que só possa cadastrar um código de curso que já tenha sido cadastrado na árvore de cursos.  */
+void converter_nome(char *nome) {
+    int i = 0;
+    while (nome[i] != '\0'){
+        nome[i] = toupper(nome[i]);
+        i++;
+    }
+}
 
+/*  I - Cadastrar alunos a qualquer momento na lista, de forma que só possa cadastrar um código de curso que já tenha sido cadastrado na árvore de cursos.  */
 int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_curso) {
     converter_nome(nome); // Converte o nome para maiúsculas
 
@@ -578,14 +585,6 @@ void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso, int matricul
 
 
 // Funções auxiliares
-void converter_nome(char *nome) {
-    int i = 0;
-    while (nome[i] != '\0'){
-        nome[i] = toupper(nome[i]);
-        i++;
-    }
-}
-
 Arv_disciplina* buscar_disciplina(Arv_disciplina *disciplina, int codigo_disciplina) {
     Arv_disciplina *resultado;
     if (disciplina == NULL || disciplina->cod_disciplina == codigo_disciplina)  
