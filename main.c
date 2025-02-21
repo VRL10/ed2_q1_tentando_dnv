@@ -199,7 +199,7 @@ int main() {
             case 15: {
                 printf("Digite a matrícula do aluno: ");
                 scanf("%d", &matricula);
-                mostrar_historico_aluno(lista_alunos, arvore_cursos);
+                mostrar_historico_aluno(lista_alunos, arvore_cursos, matricula);
                 break;
             }
             case 16: {

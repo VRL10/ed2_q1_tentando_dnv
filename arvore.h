@@ -72,7 +72,7 @@ void remover_disciplina_da_arvore_de_matricula_aluno(Arv_matricula **matriculas,
 int remover_disciplina_arvore_matricula(Arv_matricula **matricula, int codigo_disciplina);
 void disciplinas_cursadas(Arv_matricula *matriculas, Arv_disciplina *disciplinas,Arv_notas *notas, int periodo);
 void aluno_curso_esta_matriculado(Lista_alunos *aluno, Arv_curso *curso,int periodo);
-void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso);
+void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso, int matricula);
 
 
 // funções auxiliares

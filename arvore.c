@@ -547,19 +547,26 @@ void aluno_curso_esta_matriculado(Lista_alunos *aluno, Arv_curso *curso,int peri
     }
 }
 
-void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso) {
-    if (curso == NULL || aluno == NULL) {
-        printf("Aluno ou curso não encontrado.\n");
+void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso, int matricula) {
+    if (aluno == NULL) {
+        printf("Aluno não encontrado.\n");
         return;
     }
-    printf("\nCursos em que o aluno está matriculado:\n");
 
-    int max_periodo = curso->qtd_periodos;
-
-    for (int periodo = 1; periodo <= max_periodo; periodo++) {
-        aluno_curso_esta_matriculado(aluno, curso, periodo);
+    while (aluno != NULL) {
+        if (aluno->cod_matricula == matricula) {
+            printf("Histórico do Aluno: %s\n", aluno->nome);
+            for (int periodo = 1; periodo <= curso->qtd_periodos; periodo++) {
+                aluno_curso_esta_matriculado(aluno, curso, periodo);
+            }
+            return;
+        }
+        aluno = aluno->prox;
     }
+
+    printf("Aluno não encontrado.\n");
 }
+
 
 
 
