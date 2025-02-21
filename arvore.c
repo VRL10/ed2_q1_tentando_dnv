@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<ctype.h>
+#include<string.h>
 
 void converter_nome(char *nome) {
     int i = 0;
@@ -11,7 +12,7 @@ void converter_nome(char *nome) {
     }
 }
 
-/*  I) Cadastrar alunos a qualquer momento na lista, de forma que só possa cadastrar um código de curso que já tenha sido cadastrado na árvore de cursos.  */
+/*  I - Cadastrar alunos a qualquer momento na lista, de forma que só possa cadastrar um código de curso que já tenha sido cadastrado na árvore de cursos.  */
 
 int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_curso) {
     converter_nome(nome); // Converte o nome para maiúsculas
@@ -59,7 +60,7 @@ int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_
     return resultado;
 }
 
-/* Cadastrar cursos a qualquer momento na árvore de curso, de forma que o usuário não precise cadastrar
+/* II - Cadastrar cursos a qualquer momento na árvore de curso, de forma que o usuário não precise cadastrar
 as disciplinas para permitir o cadastro do curso */
 
 int cadastrar_curso(Arv_curso **curso, int cod_curso, int qtd_peridos, char nome[50]){
@@ -89,7 +90,7 @@ int cadastrar_curso(Arv_curso **curso, int cod_curso, int qtd_peridos, char nome
     return resultado;
 }
 
-/* Cadastrar disciplinas a qualquer momento em uma árvore de disciplinas de um determinado curso, ou
+/* III - Cadastrar disciplinas a qualquer momento em uma árvore de disciplinas de um determinado curso, ou
 seja, uma disciplina só pode ser cadastrada se o curso já estiver sido cadastrado, além disso, o período da disciplina deve ser válido, ou seja, estar entre 1 e a quantidade máxima de períodos do curso. A carga horária da disciplina deve ser múltiplo de 15, variando entre 30 e 90 */
 
 void validar_carga_horaria(int *validar, int carga_horaria){
@@ -97,7 +98,7 @@ void validar_carga_horaria(int *validar, int carga_horaria){
         *validar = 1;
 }
 
-void validar_periodo(Arv_curso *curso,int periodo_disciplina, int *validar){
+void validar_periodo(Arv_curso *curso, int periodo_disciplina, int *validar){
     if(periodo_disciplina >= 1 && curso->qtd_periodos >= periodo_disciplina)
         *validar = 1;
 }
@@ -119,7 +120,7 @@ void inserir_disciplina(Arv_disciplina **arv_disciplina_curso, Arv_disciplina *n
 int cadastrar_disciplina(Arv_curso **curso, int cod_disciplina, int periodo_disciplina,int carga_horaria, char nome[50], int cod_curso){
     int resultado = 0, validar_CH = 0, validar_PD = 0;
     validar_carga_horaria(&validar_CH, carga_horaria);
-    validar_periodo(curso, periodo_disciplina, &validar_PD);
+    validar_periodo(*curso, periodo_disciplina, &validar_PD);
 
     if(validar_CH == 0 || validar_PD == 0){
         if(validar_CH == 0)
@@ -248,9 +249,9 @@ void inserir_nota(Arv_notas **notas, Arv_notas *novo, int *resultado, int cod_di
         *resultado = 1;
     }else{
         if((*notas)->cod_disciplina > cod_disciplina)
-            inserir_nota((*notas)->esq, novo, resultado, cod_disciplina);
+            inserir_nota(&(*notas)->esq, novo, resultado, cod_disciplina);
         else if((*notas)->cod_disciplina < cod_disciplina)
-            inserir_nota((*notas)->dir, novo, resultado, cod_disciplina);
+            inserir_nota(&(*notas)->dir, novo, resultado, cod_disciplina);
         else
             printf("Essa nota já foi cadastrada!");
     }
@@ -266,7 +267,7 @@ int cadastrar_notas(Lista_alunos **aluno, float nota_final, int cod_disciplina, 
             novo->nota_final = nota_final;
             novo->semestre_cursado = semestre_cursado;
             inserir_nota(&(*aluno)->notas, novo, &resultado, cod_disciplina);
-            remove_disciplina_da_arvore_matricula((*aluno)->matriculas, cod_disciplina);
+            remove_disciplina_da_arvore_matricula(&(*aluno)->matriculas, cod_disciplina);
         }else
             resultado = cadastrar_notas(&(*aluno)->prox, nota_final, cod_disciplina, cod_matricula, semestre_cursado);
     }
@@ -452,10 +453,10 @@ int remover_disciplina(Arv_disciplina **disciplina_remover, int codigo_disciplin
     if(*disciplina_remover != NULL){
         if((*disciplina_remover)->cod_disciplina == codigo_disciplina){
             resultado = 1;
-            if(eh_folha(*disciplina_remover)){
+            if(eh_folha_disciplina(*disciplina_remover)){
                 free(*disciplina_remover);
                 *disciplina_remover = NULL;
-            }else if(so_um_filho(*disciplina_remover)){
+            }else if(so_um_filho_disciplina(*disciplina_remover)){
                 Arv_disciplina *aux;
                 if((*disciplina_remover)->esq == NULL){
                     aux = (*disciplina_remover)->dir;
@@ -498,11 +499,11 @@ void remover_disciplina_da_arvore_de_matricula_aluno(Arv_matricula **matriculas,
 int remover_disciplina_arvore_matricula(Arv_matricula **matricula, int codigo_disciplina){
     int resultado = 0;
     if((*matricula)->cod_disciplina == codigo_disciplina){
-        if(eh_folha(*matricula)){
+        if(eh_folha_matricula(*matricula)){
             free(*matricula);
             *matricula = NULL;
             resultado = 1;
-        }else if(so_um_filho(*matricula)){
+        }else if(so_um_filho_matricula(*matricula)){
             Arv_matricula *aux;
             if((*matricula)->esq == NULL){
                 aux = (*matricula)->dir;
@@ -554,7 +555,7 @@ void aluno_curso_esta_matriculado(Lista_alunos *aluno, Arv_curso *curso,int peri
     }
 }
 
-void mostrar_histórico_aluno(Lista_alunos *aluno, Arv_curso *curso) {
+void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso) {
     if (curso == NULL || aluno == NULL) {
         printf("Aluno ou curso não encontrado.\n");
         return;
@@ -627,12 +628,20 @@ int aluno_esta_cadastrado_na_disciplina(Lista_alunos *aluno, Arv_disciplina *dis
     return resultado;
 }
 
-int eh_folha(Arv_disciplina *disciplina){
+int eh_folha_disciplina(Arv_disciplina *disciplina){
     return(disciplina-> esq == NULL && disciplina->dir == NULL) ? 1 : 0;
 }
 
-int so_um_filho(Arv_disciplina *disciplina){
+int eh_folha_matricula(Arv_matricula *matricula) {
+    return (matricula->esq == NULL && matricula->dir == NULL) ? 1 : 0;
+}
+
+int so_um_filho_disciplina(Arv_disciplina *disciplina){
     return (disciplina->esq == NULL) ^ (disciplina->dir == NULL);
+}
+
+int so_um_filho_matricula(Arv_matricula *matricula) {
+    return (matricula->esq == NULL) ^ (matricula->dir == NULL) ? 1 : 0;
 }
 
 float buscar_nota_atual(Arv_notas *notas, Arv_disciplina *disciplina){

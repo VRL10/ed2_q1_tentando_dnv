@@ -41,6 +41,7 @@ typedef struct arvore_matricula {
 
 void converternome(char *nome);
 int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_curso);
+
 int cadastrar_curso(Arv_curso **curso, int cod_curso, int qtd_peridos, char nome[50]);
 void validar_carga_horaria(int *validar, int carga_horaria);
 void validar_periodo(Arv_curso *curso,int periodo_disciplina, int *validar);
@@ -65,13 +66,13 @@ void exibir_disciplinas_por_aluno(Lista_alunos *alunos, Arv_curso *curso, int ma
 void buscar_notas_pertence_periodo(Arv_notas *notas, Arv_disciplina *disciplina, int periodo);
 void exibir_todas_notas_disciplinas_determinado_periodo_aluno(Lista_alunos *aluno, Arv_disciplina *disciplina, int periodo, int matricula);
 void exibir_nota_disciplina_aluno(Lista_alunos *aluno, Arv_curso *curso, int codigo_disciplina, int codigo_matricula);
-void remover_disciplina_de_um_curso_sem_aluno_matriculado(Arv_curso *disciplinas, Lista_alunos *aluno, Arv_curso *curso, int codigo_disciplina);
+void remover_disciplina_de_um_curso_sem_aluno_matriculado(Lista_alunos *aluno, Arv_curso *curso, int codigo_curso, int codigo_disciplina);
 int remover_disciplina(Arv_disciplina **disciplina_remover, int codigo_disciplina);
 void remover_disciplina_da_arvore_de_matricula_aluno(Arv_matricula **matriculas, int codigo_disciplina);
 int remover_disciplina_arvore_matricula(Arv_matricula **matricula, int codigo_disciplina);
 void disciplinas_cursadas(Arv_matricula *matriculas, Arv_disciplina *disciplinas,Arv_notas *notas, int periodo);
 void aluno_curso_esta_matriculado(Lista_alunos *aluno, Arv_curso *curso,int periodo);
-void mostrar_histórico_aluno(Lista_alunos *aluno, Arv_curso *curso);
+void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso);
 
 
 // funções auxiliares
@@ -80,8 +81,10 @@ Arv_curso* buscar_curso(Arv_curso *curso, int codigo_curso);
 void exibir_disciplina(Arv_disciplina *disciplina);
 int achar_nota_final(Arv_notas *notas, int codigo_disciplina);
 int aluno_esta_cadastrado_na_disciplina(Lista_alunos *aluno, Arv_disciplina *disciplina);
-int eh_folha(Arv_disciplina *disciplina);
-int so_um_filho(Arv_disciplina *disciplina);
+int eh_folha_disciplina(Arv_disciplina *disciplina);
+int eh_folha_matricula(Arv_matricula *matricula);
+int so_um_filho_disciplina(Arv_disciplina *disciplina);
+int so_um_filho_matricula(Arv_matricula *matricula);
 float buscar_nota_atual(Arv_notas *notas, Arv_disciplina *disciplina);
 
 #endif
