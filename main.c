@@ -3,28 +3,31 @@
 #include "arvore.h"
 
 void menu() {
-    printf("|                      ----------                           |\n");
-    printf("|--------------------- Menu Geral --------------------------|\n");
-    printf("|                      ----------                           |\n");
-    printf("|                                                           |\n");
-    printf("|     1. Cadastrar Aluno (I)                                |\n");
-    printf("|     2. Cadastrar Curso (II)                               |\n");
-    printf("|     3. Cadastrar Disciplina (III)                         |\n");
-    printf("|     4. Cadastrar Matrícula (IV)                           |\n");
-    printf("|     5. Cadastrar Nota (V)                                 |\n");
-    printf("|     6. Mostrar Alunos de um Curso (VI)                    |\n");
-    printf("|     7. Mostrar Cursos do Campus (VII)                     |\n");
-    printf("|     8. Mostrar Disciplinas de um Curso (VIII)             |\n");
-    printf("|     9. Mostrar Disciplinas de um Período do curso (IX)    |\n");
-    printf("|    10. Mostrar Disciplinas que um determinad aluno está matriculado (X)               |\n");
-    printf("|    11. Mostrar todas as notas de disciplinas de um determinado período de um determinado aluno (XI)                     |\n");
-    printf("|    12. Mostrar a nota de uma disciplina de um determinado aluno (XII)               |\n");
-    printf("|    13. Remover Disciplina de Curso (XIII)                 |\n");
-    printf("|    14. Remover Disciplina da Matrícula (XIV)              |\n");
-    printf("|    15. Mostrar Histórico do Aluno (XV)                    |\n");
-    printf("|    16. Sair                                               |\n");
-    printf("|                                                           |\n");
     printf("|-----------------------------------------------------------|\n");
+printf("|                Menu Geral                                 |\n");
+printf("|-----------------------------------------------------------|\n");
+printf("|                                                           |\n");
+printf("|     1. Cadastrar Aluno (I)                                |\n");
+printf("|     2. Cadastrar Curso (II)                               |\n");
+printf("|     3. Cadastrar Disciplina (III)                         |\n");
+printf("|     4. Cadastrar Matrícula (IV)                           |\n");
+printf("|     5. Cadastrar Nota (V)                                 |\n");
+printf("|     6. Mostrar Alunos de um Curso (VI)                    |\n");
+printf("|     7. Mostrar Cursos do Campus (VII)                     |\n");
+printf("|     8. Mostrar Disciplinas de um Curso (VIII)             |\n");
+printf("|     9. Mostrar Disciplinas de um Período do curso (IX)    |\n");
+printf("|    10. Mostrar Disciplinas que um determinado aluno está  |\n");
+printf("|        matriculado (X)                                    |\n");
+printf("|    11. Mostrar todas as notas de disciplinas de um         |\n");
+printf("|        determinado período de um determinado aluno (XI)   |\n");
+printf("|    12. Mostrar a nota de uma disciplina de um aluno (XII) |\n");
+printf("|    13. Remover Disciplina de Curso (XIII)                 |\n");
+printf("|    14. Remover Disciplina da Matrícula (XIV)              |\n");
+printf("|    15. Mostrar Histórico do Aluno (XV)                    |\n");
+printf("|    16. Sair                                               |\n");
+printf("|                                                           |\n");
+printf("|-----------------------------------------------------------|\n");
+
 }
 
 int main() {
