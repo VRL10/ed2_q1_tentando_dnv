@@ -176,17 +176,30 @@ int main() {
                 break;
             }
             case 14: {
+                int matricula, cod_disciplina;
                 printf("Digite a matrícula do aluno: ");
                 scanf("%d", &matricula);
-                printf("Digite o código da disciplina: ");
+                printf("Digite o código da disciplina a ser removida: ");
                 scanf("%d", &cod_disciplina);
-                remover_disciplina_da_arvore_de_matricula_aluno(lista_alunos->matriculas, cod_disciplina);
+                // Encontrar o aluno na lista de alunos
+                Lista_alunos *aluno_encontrado = lista_alunos;
+                while (aluno_encontrado != NULL) {
+                    if (aluno_encontrado->cod_matricula == matricula) {
+                        // Aluno encontrado, agora remover a disciplina da árvore de matrícula
+                        remover_disciplina_da_arvore_de_matricula_aluno(&aluno_encontrado->matriculas, cod_disciplina);
+                        printf("Disciplina removida com sucesso da matrícula %d.\n", matricula);
+                        break;
+                    }
+                    aluno_encontrado = aluno_encontrado->prox;
+                }
+                if (aluno_encontrado == NULL)
+                    printf("Aluno não encontrado.\n");
                 break;
             }
             case 15: {
                 printf("Digite a matrícula do aluno: ");
                 scanf("%d", &matricula);
-                mostrar_historico_aluno(lista_alunos, arvore_cursos, matricula);
+                mostrar_historico_aluno(lista_alunos, arvore_cursos);
                 break;
             }
             case 16: {
