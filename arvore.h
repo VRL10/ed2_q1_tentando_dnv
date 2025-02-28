@@ -40,43 +40,54 @@ typedef struct arvore_matricula {
 }Arv_matricula;
 
 
-int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_curso);
-
+// ---------- Funções relacionadas a Cursos ------------
 int cadastrar_curso(Arv_curso **curso, int cod_curso, int qtd_peridos, char nome[50]);
 void validar_carga_horaria(int *validar, int carga_horaria);
 void validar_periodo(Arv_curso *curso,int periodo_disciplina, int *validar);
-void inserir_disciplina(Arv_disciplina **arv_disciplina_curso, Arv_disciplina *novo, int *inseriu);
-int cadastrar_disciplina(Arv_curso **curso, int cod_disciplina, int periodo_disciplina,int carga_horaria, char nome[50], int cod_curso);
-void gerar_codigo_disciplina(int *cod_disciplina);
-void inserir_matricula(Arv_matricula **matricula, Arv_matricula *novo, int *resultado);
-int cadastrar_matricula(Lista_alunos **aluno, int cod_disciplina, int cod_matricula);
-void remove_disciplina_da_arvore_matricula(Arv_matricula **matricula, int cod_disciplina);
-int disciplina_existe_na_matricula(Arv_matricula *matricula, int cod_disciplina);
-void inserir_nota(Arv_notas **notas, Arv_notas *novo, int *resultado, int cod_disciplina);
-int cadastrar_notas(Lista_alunos **aluno, float nota_final, int cod_disciplina, int cod_matricula, int semestre_cursado);
 void aluno_por_curso(Lista_alunos *aluno, int cod_curso);
 void todos_cursos_do_campus(Arv_curso *curso);
-void exibir_disciplinas_do_curso(Arv_disciplina *disciplina);
-void encontrar_curso_desejado(Arv_curso *curso, int codigo_curso);
-void mostrar_disciplinas_periodo(Arv_disciplina *disciplina, int periodo);
-void mostrar_todas_disciplinas_periodo_de_um_curso(Arv_curso *curso, int codigo_curso, int periodo);
+
+
+// ---------- Funções relacionadas a Alunos ------------
+int cadastrar_aluno(Lista_alunos **aluno, char nome[50], int matricula, int cod_curso);
+void aluno_curso_esta_matriculado(Lista_alunos *aluno, Arv_curso *curso,int periodo);
+void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso, int matricula);
 void exibir_disciplinas_aluno_matriculado_recursiva(Arv_matricula *matriculas, Arv_curso *curso);
 void exibir_disciplinas_aluno_matriculado(Lista_alunos *aluno, Arv_curso *curso);
 void exibir_disciplinas_por_aluno(Lista_alunos *alunos, Arv_curso *curso, int matricula);
+
+// ---------- Funções relacionadas a Matrículas ------------
+void inserir_matricula(Arv_matricula **matricula, Arv_matricula *novo, int *resultado);
+int cadastrar_matricula(Lista_alunos **aluno, int cod_disciplina, int cod_matricula);
+void remover_disciplina_da_arvore_de_matricula_aluno(Arv_matricula **matriculas, int codigo_disciplina);
+int remover_disciplina_arvore_matricula(Arv_matricula **matricula, int codigo_disciplina);
+
+// ---------- Funções relacionadas a Notas ------------
+void inserir_nota(Arv_notas **notas, Arv_notas *novo, int *resultado, int cod_disciplina);
+int cadastrar_notas(Lista_alunos **aluno, float nota_final, int cod_disciplina, int cod_matricula, int semestre_cursado);
 void buscar_notas_pertence_periodo(Arv_notas *notas, Arv_disciplina *disciplina, int periodo);
 void exibir_todas_notas_disciplinas_determinado_periodo_aluno(Lista_alunos *aluno, Arv_disciplina *disciplina, int periodo, int matricula);
 void exibir_nota_disciplina_aluno(Lista_alunos *aluno, Arv_curso *curso, int codigo_disciplina, int codigo_matricula);
+
+// ---------- Funções Referentes a Disciplina ------------
+void inserir_disciplina(Arv_disciplina **arv_disciplina_curso, Arv_disciplina *novo, int *inseriu);
+int cadastrar_disciplina(Arv_curso **curso, int cod_disciplina, int periodo_disciplina,int carga_horaria, char nome[50], int cod_curso);
+void gerar_codigo_disciplina(int *cod_disciplina);
+void remove_disciplina_da_arvore_matricula(Arv_matricula **matricula, int cod_disciplina);
+int disciplina_existe_na_matricula(Arv_matricula *matricula, int cod_disciplina);
+void exibir_disciplinas_do_curso(Arv_disciplina *disciplina);
+void mostrar_disciplinas_periodo(Arv_disciplina *disciplina, int periodo);
+void mostrar_todas_disciplinas_periodo_de_um_curso(Arv_curso *curso, int codigo_curso, int periodo);
 void remover_disciplina_de_um_curso_sem_aluno_matriculado(Lista_alunos *aluno, Arv_curso *curso, int codigo_curso, int codigo_disciplina);
 int remover_disciplina(Arv_disciplina **disciplina_remover, int codigo_disciplina);
-void remover_disciplina_da_arvore_de_matricula_aluno(Arv_matricula **matriculas, int codigo_disciplina);
-int remover_disciplina_arvore_matricula(Arv_matricula **matricula, int codigo_disciplina);
 void disciplinas_cursadas(Arv_matricula *matriculas, Arv_disciplina *disciplinas,Arv_notas *notas, int periodo);
-void aluno_curso_esta_matriculado(Lista_alunos *aluno, Arv_curso *curso,int periodo);
-void mostrar_historico_aluno(Lista_alunos *aluno, Arv_curso *curso, int matricula);
+
+
 
 
 // funções auxiliares
 void converternome(char *nome);
+void encontrar_curso_desejado(Arv_curso *curso, int codigo_curso);
 Arv_disciplina* buscar_disciplina(Arv_disciplina *disciplina, int codigo_disciplina);
 Arv_curso* buscar_curso(Arv_curso *curso, int codigo_curso);
 void exibir_disciplina(Arv_disciplina *disciplina);
