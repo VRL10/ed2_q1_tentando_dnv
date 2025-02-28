@@ -60,5 +60,60 @@ void povoamento_decrescente_cursos(Arv_curso **raiz){
 
 void povoamento_aleatorio_cursos(Arv_curso **raiz){
     *raiz = NULL;
-    
+    int i = 1;
+    while (i <= QUANTIDADECURSOS){
+        int codigo_curso = rand() % QUANTIDADECURSOS + 1;
+        clock_t inicio = clock();
+        if(cadastrar_curso(raiz,i,10,"DIREITO") == 1)
+            i++;
+        clock_t fim = clock();
+
+        tempos_insercao_aleatorio[i - 1] = ((double)(fim - inicio) / CLOCKS_PER_SEC) * 1000;
+    }
+}
+
+// -----------------------------------  POVOAMENTO DISCIPLINAS -------------------------------
+int codigo_disciplina_global_crescente = 1;
+void povoamento_crescente_disciplinas(Arv_curso **raiz, Arv_curso **curso){
+    Arv_disciplina* disciplina = (Arv_disciplina*) malloc(sizeof(Arv_disciplina));
+    strcpy(disciplina->nome, "Direitos Trabalhistas I");
+    disciplina->carga_horaria = 60;
+    disciplina->periodo_disciplina = 3;
+    disciplina->cod_disciplina = codigo_disciplina_global_crescente++;
+
+    cadastrar_disciplina(curso, disciplina->cod_disciplina, disciplina->periodo_disciplina, disciplina->carga_horaria, disciplina->nome,(*curso)->cod_curso);
+
+    povoamento_crescente_disciplinas(&(*raiz)->esq, curso);
+    povoamento_crescente_disciplinas(&(*raiz)->dir, curso);
+}
+
+int codigo_disciplina_global_decrescente = QUANTIDADEDISCIPLINAS;
+void povoamento_decrescente_disciplinas(Arv_curso **raiz, Arv_curso **curso){
+    Arv_disciplina* disciplina = (Arv_disciplina*) malloc(sizeof(Arv_disciplina));
+    strcpy(disciplina->nome, "Direitos Trabalhistas I");
+    disciplina->carga_horaria = 60;
+    disciplina->periodo_disciplina = 3;
+    disciplina->cod_disciplina = codigo_disciplina_global_decrescente--;
+
+    cadastrar_disciplina(curso, disciplina->cod_disciplina, disciplina->periodo_disciplina, disciplina->carga_horaria, disciplina->nome,(*curso)->cod_curso);
+
+    povoamento_decrescente_disciplinas(&(*raiz)->esq, curso);
+    povoamento_decrescente_disciplinas(&(*raiz)->dir, curso);
+}
+
+void povoamento_disciplinas_aleatorio(Arv_curso **raiz, Arv_curso **curso){
+    if (*raiz != NULL){
+        srand(time(NULL));
+
+        Arv_disciplina* disciplina = (Arv_disciplina*) malloc(sizeof(Arv_disciplina));
+        strcpy(disciplina->nome, "Direitos Trabalhistas I");
+        disciplina->carga_horaria = (rand() % 5 + 2) * 15;
+        disciplina->periodo_disciplina = rand() % (*raiz)->qtd_periodos + 1;
+        disciplina->cod_disciplina = (rand() % QUANTIDADEDISCIPLINAS) + 1;
+
+        cadastrar_disciplina(curso, disciplina->cod_disciplina, disciplina->periodo_disciplina, disciplina->carga_horaria, disciplina->nome, (*curso)->cod_curso);
+
+        povoamento_disciplinas_aleatorio(&(*raiz)->esq, curso);
+        povoamento_disciplinas_aleatorio(&(*raiz)->dir, curso);
+    }
 }
