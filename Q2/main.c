@@ -75,30 +75,34 @@ void povoamento_aleatorio_cursos(Arv_curso **raiz){
 // -----------------------------------  POVOAMENTO DISCIPLINAS -------------------------------
 int codigo_disciplina_global_crescente = 1;
 void povoamento_crescente_disciplinas(Arv_curso **raiz, Arv_curso **curso){
-    Arv_disciplina* disciplina = (Arv_disciplina*) malloc(sizeof(Arv_disciplina));
-    strcpy(disciplina->nome, "Direitos Trabalhistas I");
-    disciplina->carga_horaria = 60;
-    disciplina->periodo_disciplina = 3;
-    disciplina->cod_disciplina = codigo_disciplina_global_crescente++;
+    if (*raiz != NULL){
+        Arv_disciplina* disciplina = (Arv_disciplina*) malloc(sizeof(Arv_disciplina));
+        strcpy(disciplina->nome, "Direitos Trabalhistas I");
+        disciplina->carga_horaria = 60;
+        disciplina->periodo_disciplina = 3;
+        disciplina->cod_disciplina = codigo_disciplina_global_crescente++;
 
-    cadastrar_disciplina(curso, disciplina->cod_disciplina, disciplina->periodo_disciplina, disciplina->carga_horaria, disciplina->nome,(*curso)->cod_curso);
+        cadastrar_disciplina(curso, disciplina->cod_disciplina, disciplina->periodo_disciplina, disciplina->carga_horaria, disciplina->nome,(*curso)->cod_curso);
 
-    povoamento_crescente_disciplinas(&(*raiz)->esq, curso);
-    povoamento_crescente_disciplinas(&(*raiz)->dir, curso);
+        povoamento_crescente_disciplinas(&(*raiz)->esq, curso);
+        povoamento_crescente_disciplinas(&(*raiz)->dir, curso);
+    }
 }
 
 int codigo_disciplina_global_decrescente = QUANTIDADEDISCIPLINAS;
 void povoamento_decrescente_disciplinas(Arv_curso **raiz, Arv_curso **curso){
-    Arv_disciplina* disciplina = (Arv_disciplina*) malloc(sizeof(Arv_disciplina));
-    strcpy(disciplina->nome, "Direitos Trabalhistas I");
-    disciplina->carga_horaria = 60;
-    disciplina->periodo_disciplina = 3;
-    disciplina->cod_disciplina = codigo_disciplina_global_decrescente--;
+    if(*raiz !=NULL){
+        Arv_disciplina* disciplina = (Arv_disciplina*) malloc(sizeof(Arv_disciplina));
+        strcpy(disciplina->nome, "Direitos Trabalhistas I");
+        disciplina->carga_horaria = 60;
+        disciplina->periodo_disciplina = 3;
+        disciplina->cod_disciplina = codigo_disciplina_global_decrescente--;
 
-    cadastrar_disciplina(curso, disciplina->cod_disciplina, disciplina->periodo_disciplina, disciplina->carga_horaria, disciplina->nome,(*curso)->cod_curso);
+        cadastrar_disciplina(curso, disciplina->cod_disciplina, disciplina->periodo_disciplina, disciplina->carga_horaria, disciplina->nome,(*curso)->cod_curso);
 
-    povoamento_decrescente_disciplinas(&(*raiz)->esq, curso);
-    povoamento_decrescente_disciplinas(&(*raiz)->dir, curso);
+        povoamento_decrescente_disciplinas(&(*raiz)->esq, curso);
+        povoamento_decrescente_disciplinas(&(*raiz)->dir, curso);
+    }
 }
 
 void povoamento_disciplinas_aleatorio(Arv_curso **raiz, Arv_curso **curso){
