@@ -121,3 +121,26 @@ void povoamento_disciplinas_aleatorio(Arv_curso **raiz, Arv_curso **curso){
         povoamento_disciplinas_aleatorio(&(*raiz)->dir, curso);
     }
 }
+
+// -----------------------------------  POVOAMENTO ALUNOS --------------------------------
+void povoamento_crescente_alunos(Lista_alunos **aluno){
+    char *nomes[5] = {"Daniel", "Rodrigues", "Cristina", "Sousa", "Juliana"};
+    for (int i = 1; i <= QUANTIDADEALUNOS; i++){
+        int cod_matricula = i;
+        int cod_curso = i;
+        char nome = nomes[range() % 5];
+    
+        cadastrar_aluno(*aluno, nome, cod_matricula, cod_curso);
+    }
+}
+
+void povoamento_decrescente_alunos(Lista_alunos **aluno){
+    char *nomes[5] = {"Daniel", "Rodrigues", "Cristina", "Sousa", "Juliana"};
+    for (int i = 1; i <= QUANTIDADEALUNOS; i++){
+        int cod_matricula = i;
+        int cod_curso = i;
+        char nome = nomes[range() % 5];
+    
+        cadastrar_aluno(*aluno, nome, cod_matricula, cod_curso);
+    }
+}
